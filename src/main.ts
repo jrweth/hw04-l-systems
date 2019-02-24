@@ -20,7 +20,8 @@ let time: number = 0.0;
 
 function loadScene() {
   let tree = new Tree(5, {});
-  console.log(tree.run());
+  console.log(tree.runExpansionIterations());
+  console.log(tree.runDrawRules());
   square = new Square();
   square.create();
   screenQuad = new ScreenQuad();

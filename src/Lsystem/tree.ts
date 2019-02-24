@@ -8,9 +8,12 @@ export class Tree extends LSystem {
   constructor(iterations: number, options: any) {
     super(iterations, options);
     this.axiom = 'F';
-    this.addXRule('F', new XReplace('FA'));
+    this.addXRule('F', new XReplace('F+F'));
     this.addXRule('A', new XReplace('F'));
 
+    this.addStandardDrawRules();
+
   }
+
 
 }
