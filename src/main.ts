@@ -7,6 +7,7 @@ import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
 import Camera from './Camera';
 import {setGL} from './globals';
 import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
+import {Tree} from "./Lsystem/tree";
 
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
@@ -18,6 +19,8 @@ let screenQuad: ScreenQuad;
 let time: number = 0.0;
 
 function loadScene() {
+  let tree = new Tree(5, {});
+  console.log(tree.run());
   square = new Square();
   square.create();
   screenQuad = new ScreenQuad();
