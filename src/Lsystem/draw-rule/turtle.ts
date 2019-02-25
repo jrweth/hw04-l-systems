@@ -1,4 +1,4 @@
-import {vec3} from 'gl-matrix';
+import {vec3, vec4} from 'gl-matrix';
 
 /**
  * Struct to hold the parameters for the turtle
@@ -31,4 +31,5 @@ export class Turtle {
   height: number = 1.0;
   heightScale: number = 1.0;
 
+  color: vec4 = vec4.fromValues(0.5,0.5,0.9, 1.0);
 }

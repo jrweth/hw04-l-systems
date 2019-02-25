@@ -19,9 +19,9 @@ let screenQuad: ScreenQuad;
 let time: number = 0.0;
 
 function loadScene() {
-  let tree = new Tree(5, {});
+  let tree = new Tree(10, {});
   console.log(tree.runExpansionIterations());
-  console.log(tree.runDrawRules());
+  let geometries = tree.runDrawRules();
   square = new Square();
   square.create();
   screenQuad = new ScreenQuad();
@@ -34,23 +34,20 @@ function loadScene() {
   // one square is actually passed to the GPU
   let offsetsArray = [];
   let colorsArray = [];
-  let n: number = 100.0;
-  for(let i = 0; i < n; i++) {
-    for(let j = 0; j < n; j++) {
-      offsetsArray.push(i);
-      offsetsArray.push(j);
-      offsetsArray.push(0);
+  for(let i = 0; i < geometries.length; i++) {
+    offsetsArray.push(geometries[i].pos[0]);
+    offsetsArray.push(geometries[i].pos[1]);
+    offsetsArray.push(geometries[i].pos[2]);
 
-      colorsArray.push(i / n);
-      colorsArray.push(j / n);
-      colorsArray.push(1.0);
-      colorsArray.push(1.0); // Alpha channel
-    }
+    colorsArray.push(geometries[i].color[0]);
+    colorsArray.push(geometries[i].color[1]);
+    colorsArray.push(geometries[i].color[2]);
+    colorsArray.push(geometries[i].color[3]);
   }
   let offsets: Float32Array = new Float32Array(offsetsArray);
   let colors: Float32Array = new Float32Array(colorsArray);
   square.setInstanceVBOs(offsets, colors);
-  square.setNumInstances(n * n); // grid of "particles"
+  square.setNumInstances(geometries.length); // grid of "particles"
 }
 
 function main() {
@@ -78,7 +75,7 @@ function main() {
   // Initial call to load scene
   loadScene();
 
-  const camera = new Camera(vec3.fromValues(50, 50, 10), vec3.fromValues(50, 50, 0));
+  const camera = new Camera(vec3.fromValues(0, 0, -50), vec3.fromValues(0, 3, 0));
 
   const renderer = new OpenGLRenderer(canvas);
   renderer.setClearColor(0.2, 0.2, 0.2, 1);

@@ -5,10 +5,10 @@ import {MoveForward} from "./move-forward";
 
 export class DrawMoveForward extends MoveForward{
   draw() {
-    console.log(this);
     this.geometry.push({
       pos: this.turtle.pos,
-      scale: vec3.fromValues(this.turtle.width, this.turtle.height, this.turtle.width)
+      scale: vec3.fromValues(this.turtle.width, this.turtle.height, this.turtle.width),
+      color: this.turtle.color
     });
     super.draw();
   }

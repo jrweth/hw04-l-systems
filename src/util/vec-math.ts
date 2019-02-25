@@ -34,8 +34,6 @@ export class VecMath {
 
   public static multiply(a: vec3, b: vec3 | number[] | number): vec3 {
     let out: vec3 = vec3.create();
-    console.log(this.convertToVec3(a));
-    console.log(this.convertToVec3(b));
     return vec3.multiply(out, this.convertToVec3(a), this.convertToVec3(b));
   }
 
@@ -50,23 +48,6 @@ export class VecMath {
 
     return vec3.fromValues(result[0], result[1], result[2]);
 
-    //   //see http://paulbourke.net/geometry/rotate/
-    //   let a = vector[0];
-    //   let b = vector[1];
-    //   let c = vector[2];
-    //   let d = vec2.len(vec2.fromValues(b, c));
-    //
-    //
-    //   let rot1: mat4;
-    //   let rot1inverse: mat4;
-    //   if(d == 0.0) {
-    //     mat4.identity(rot1);
-    //     mat4.identity(rot1inverse);
-    //   }
-    //   else {
-    //     rot1: mat4.from
-    //   }
-    // }
   }
 
 }
