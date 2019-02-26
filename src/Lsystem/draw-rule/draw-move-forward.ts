@@ -8,7 +8,8 @@ export class DrawMoveForward extends MoveForward{
     this.geometry.push({
       pos: this.turtle.pos,
       scale: vec3.fromValues(this.turtle.width, this.turtle.height, this.turtle.width),
-      color: this.turtle.color
+      color: this.turtle.color,
+      transform: this.turtle.transform
     });
     super.draw();
   }

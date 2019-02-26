@@ -10,7 +10,7 @@ export class Tree extends LSystem {
     this.turtle.height = 1;
     this.turtle.width = 1;
     this.axiom = 'FA';
-    this.addXRule('A', new XReplace('F+F+F+F-F-F-A'));
+    this.addXRule('A', new XReplace('FFA'));
 
     this.addStandardDrawRules();
 

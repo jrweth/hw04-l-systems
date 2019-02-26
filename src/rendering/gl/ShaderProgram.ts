@@ -25,6 +25,10 @@ class ShaderProgram {
   attrNor: number;
   attrCol: number; // This time, it's an instanced rendering attribute, so each particle can have a unique color. Not per-vertex, but per-instance.
   attrTranslate: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrTransform1: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrTransform2: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrTransform3: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrTransform4: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
   attrUV: number;
 
   unifModel: WebGLUniformLocation;
@@ -51,6 +55,7 @@ class ShaderProgram {
     this.attrPos = gl.getAttribLocation(this.prog, "vs_Pos");
     this.attrCol = gl.getAttribLocation(this.prog, "vs_Col");
     this.attrTranslate = gl.getAttribLocation(this.prog, "vs_Translate");
+    this.attrTransform1 = gl.getAttribLocation(this.prog, "vs_Transform1");
     this.attrUV = gl.getAttribLocation(this.prog, "vs_UV");
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
@@ -60,6 +65,7 @@ class ShaderProgram {
     this.unifEye   = gl.getUniformLocation(this.prog, "u_Eye");
     this.unifRef   = gl.getUniformLocation(this.prog, "u_Ref");
     this.unifUp   = gl.getUniformLocation(this.prog, "u_Up");
+
   }
 
   use() {
@@ -125,6 +131,7 @@ class ShaderProgram {
   }
 
   draw(d: Drawable) {
+
     this.use();
 
     if (this.attrPos != -1 && d.bindPos()) {
@@ -151,6 +158,7 @@ class ShaderProgram {
       gl.vertexAttribDivisor(this.attrTranslate, 1); // Advance 1 index in translate VBO for each drawn instance
     }
 
+
     if (this.attrUV != -1 && d.bindUV()) {
       gl.enableVertexAttribArray(this.attrUV);
       gl.vertexAttribPointer(this.attrUV, 2, gl.FLOAT, false, 0, 0);
@@ -158,6 +166,11 @@ class ShaderProgram {
     }
 
     // TODO: Set up attribute data for additional instanced rendering data as needed
+    if (this.attrTransform1 != -1 && d.bindTransform1()) {
+      gl.enableVertexAttribArray(this.attrTransform1);
+      gl.vertexAttribPointer(this.attrTransform1, 4, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrTransform1, 1); // Advance 1 index in transform VBO for each drawn instance
+    }
 
     d.bindIdx();
     // drawElementsInstanced uses the vertexAttribDivisor for each "in" variable to
@@ -177,6 +190,7 @@ class ShaderProgram {
     if (this.attrNor != -1) gl.disableVertexAttribArray(this.attrNor);
     if (this.attrCol != -1) gl.disableVertexAttribArray(this.attrCol);
     if (this.attrTranslate != -1) gl.disableVertexAttribArray(this.attrTranslate);
+    if (this.attrTransform1 != -1) gl.disableVertexAttribArray(this.attrTransform1);
     if (this.attrUV != -1) gl.disableVertexAttribArray(this.attrUV);
   }
 };

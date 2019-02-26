@@ -8,13 +8,14 @@ import Camera from './Camera';
 import {setGL} from './globals';
 import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 import {Tree} from "./Lsystem/tree";
+import Cylinder from "./geometry/Cylinder";
 
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
 };
 
-let square: Square;
+let cylinder: Cylinder;
 let screenQuad: ScreenQuad;
 let time: number = 0.0;
 
@@ -22,8 +23,8 @@ function loadScene() {
   let tree = new Tree(10, {});
   console.log(tree.runExpansionIterations());
   let geometries = tree.runDrawRules();
-  square = new Square();
-  square.create();
+  cylinder = new Cylinder(6);
+  cylinder.create();
   screenQuad = new ScreenQuad();
   screenQuad.create();
 
@@ -32,22 +33,28 @@ function loadScene() {
   // offsets and gradiated colors for a 100x100 grid
   // of squares, even though the VBO data for just
   // one square is actually passed to the GPU
-  let offsetsArray = [];
-  let colorsArray = [];
+  let offsets: number[] = [];
+  let colors: number[] = [];
+  let transforms1: number[] = [];
   for(let i = 0; i < geometries.length; i++) {
-    offsetsArray.push(geometries[i].pos[0]);
-    offsetsArray.push(geometries[i].pos[1]);
-    offsetsArray.push(geometries[i].pos[2]);
+    offsets.push(geometries[i].pos[0]);
+    offsets.push(geometries[i].pos[1]);
+    offsets.push(geometries[i].pos[2]);
 
-    colorsArray.push(geometries[i].color[0]);
-    colorsArray.push(geometries[i].color[1]);
-    colorsArray.push(geometries[i].color[2]);
-    colorsArray.push(geometries[i].color[3]);
+    colors.push(geometries[i].color[0]);
+    colors.push(geometries[i].color[1]);
+    colors.push(geometries[i].color[2]);
+    colors.push(geometries[i].color[3]);
+
+    transforms1.push(geometries[i].transform[0]);
+    transforms1.push(geometries[i].transform[1]);
+    transforms1.push(geometries[i].transform[2]);
+    transforms1.push(geometries[i].transform[3]);
+
+
   }
-  let offsets: Float32Array = new Float32Array(offsetsArray);
-  let colors: Float32Array = new Float32Array(colorsArray);
-  square.setInstanceVBOs(offsets, colors);
-  square.setNumInstances(geometries.length); // grid of "particles"
+  cylinder.setInstanceVBOs(offsets, colors, transforms1);
+  cylinder.setNumInstances(geometries.length); // grid of "particles"
 }
 
 function main() {
@@ -75,7 +82,7 @@ function main() {
   // Initial call to load scene
   loadScene();
 
-  const camera = new Camera(vec3.fromValues(0, 0, -50), vec3.fromValues(0, 3, 0));
+  const camera = new Camera(vec3.fromValues(0, 0, -150), vec3.fromValues(0, 3, 0));
 
   const renderer = new OpenGLRenderer(canvas);
   renderer.setClearColor(0.2, 0.2, 0.2, 1);
@@ -102,7 +109,7 @@ function main() {
     renderer.clear();
     renderer.render(camera, flat, [screenQuad]);
     renderer.render(camera, instancedShader, [
-      square,
+      cylinder
     ]);
     stats.end();
 
