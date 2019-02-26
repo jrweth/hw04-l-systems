@@ -8,6 +8,7 @@ import {TurnRight} from "./draw-rule/turn-right";
 import {TurnLeft} from "./draw-rule/turn-left";
 import {StartBranch} from "./draw-rule/start-branch";
 import {EndBranch} from "./draw-rule/end-branch";
+import {RollClockwise} from "./draw-rule/roll-clockwise";
 
 export class LSystem {
   //the axiom to start with
@@ -94,8 +95,6 @@ export class LSystem {
   runDrawRules(): any[] {
     let globalTurtleStack: Turtle[] = [];
     for(let charIndex:number = 0; charIndex < this.curString.length; charIndex++) {
-      console.log(this.turtle);
-      console.log(this.turtleStack);
       let char = this.curString.charAt(charIndex);
       let func = this.drawRules.get(char);
       //if rule is found then use
@@ -118,6 +117,7 @@ export class LSystem {
     this.addDrawRule('-', new TurnLeft());
     this.addDrawRule('[', new StartBranch());
     this.addDrawRule(']', new EndBranch());
+    this.addDrawRule('/', new RollClockwise());
   }
 
 

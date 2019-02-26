@@ -1,5 +1,6 @@
 import {LSystem} from './lsystem';
 import {XReplace} from "./x-rule/x-replace";
+import {XReplacePercent} from "./x-rule/x-replace-percent";
 
 
 export class Tree extends LSystem {
@@ -10,7 +11,11 @@ export class Tree extends LSystem {
     this.turtle.height = 1;
     this.turtle.width = 1;
     this.axiom = 'A';
-    this.addXRule('A', new XReplace('FF[-F-F-F]A'));
+    this.addXRule('A', new XReplace('FFBA'));
+    this.addXRule('B', new XReplacePercent([
+      {output: '[-FFF]', percentage: 0.90},
+      {output: '[+FFF]', percentage: 0.10}
+    ], 2344));
 
     this.addStandardDrawRules();
 
