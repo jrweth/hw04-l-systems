@@ -12,7 +12,7 @@ export class VecMath {
   public static id: mat4 = mat4.fromValues(1,0,0,0, 0,1,0,0, 0,0, 1,0, 0,0,0, 1);
 
   public static degreeToRad(deg: number): number {
-    return deg * this.pi /360 ;
+    return deg * 2.0 *  this.pi /360 ;
   }
 
   public static convertToVec3(a: vec3 | number[] | number): vec3 {

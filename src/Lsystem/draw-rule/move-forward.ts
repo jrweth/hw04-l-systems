@@ -5,7 +5,7 @@ import {VecMath} from "../../util/vec-math"
 
 export class MoveForward extends BaseDrawRule implements DrawRule {
   draw() {
-    let translation:vec3 = VecMath.multiply(this.turtle.dir, this.turtle.height);
+    let translation:vec3 = vec3.fromValues(0, 1, 0);
     this.turtle.pos =  VecMath.add(this.turtle.pos, translation);
 
     //add to the transformation
