@@ -27,8 +27,8 @@ class Cylinder extends Drawable {
     for(let i = 0; i < this.numSegments; i++) {
       let x = 0.5 * Math.cos(i * 2 * Math.PI / this.numSegments);
       let z = 0.5 * Math.sin(i * 2 * Math.PI / this.numSegments);
-      positions.push(x, 0.5, z, 1);
-      positions.push(x, 0-.5, z, 1);
+      positions.push(x, 1.1, z, 1);
+      positions.push(x, 0, z, 1);
       normals.push(x,0,z,1);
       normals.push(x,0,z,1);
 
