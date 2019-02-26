@@ -57,6 +57,8 @@ class ShaderProgram {
     this.attrTranslate = gl.getAttribLocation(this.prog, "vs_Translate");
     this.attrTransform1 = gl.getAttribLocation(this.prog, "vs_Transform1");
     this.attrTransform2 = gl.getAttribLocation(this.prog, "vs_Transform2");
+    this.attrTransform3 = gl.getAttribLocation(this.prog, "vs_Transform3");
+    this.attrTransform4 = gl.getAttribLocation(this.prog, "vs_Transform4");
     this.attrUV = gl.getAttribLocation(this.prog, "vs_UV");
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
@@ -177,6 +179,18 @@ class ShaderProgram {
       gl.enableVertexAttribArray(this.attrTransform2);
       gl.vertexAttribPointer(this.attrTransform2, 4, gl.FLOAT, false, 0, 0);
       gl.vertexAttribDivisor(this.attrTransform2, 1); // Advance 1 index in transform VBO for each drawn instance
+    }
+
+    if (this.attrTransform3 != -1 && d.bindTransform3()) {
+      gl.enableVertexAttribArray(this.attrTransform3);
+      gl.vertexAttribPointer(this.attrTransform3, 4, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrTransform3, 1); // Advance 1 index in transform VBO for each drawn instance
+    }
+
+    if (this.attrTransform4 != -1 && d.bindTransform4()) {
+      gl.enableVertexAttribArray(this.attrTransform4);
+      gl.vertexAttribPointer(this.attrTransform4, 4, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrTransform4, 1); // Advance 1 index in transform VBO for each drawn instance
     }
 
     d.bindIdx();

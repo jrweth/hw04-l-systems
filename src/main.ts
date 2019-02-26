@@ -35,8 +35,7 @@ function loadScene() {
   // one square is actually passed to the GPU
   let offsets: number[] = [];
   let colors: number[] = [];
-  let transforms1: number[] = [];
-  let transforms2: number[] = [];
+  let transforms: number[][] = [[],[],[],[]];
   for(let i = 0; i < geometries.length; i++) {
     offsets.push(geometries[i].pos[0]);
     offsets.push(geometries[i].pos[1]);
@@ -48,12 +47,15 @@ function loadScene() {
     colors.push(geometries[i].color[3]);
 
     for(let j = 0; j < 16; j++) {
-      if(j >= 0 && j < 4) transforms1.push(geometries[i].transform[j]);
-      if(j >= 4 && j < 8) transforms2.push(geometries[i].transform[j]);
+      if(j >= 0 && j < 4) transforms[0].push(geometries[i].transform[j]);
+      if(j >= 4 && j < 8) transforms[1].push(geometries[i].transform[j]);
+      if(j >= 8 && j < 12) transforms[2].push(geometries[i].transform[j]);
+      if(j >= 12 && j < 16) transforms[3].push(geometries[i].transform[j]);
     }
+    console.log(transforms);
 
   }
-  cylinder.setInstanceVBOs(offsets, colors, transforms1, transforms2);
+  cylinder.setInstanceVBOs(offsets, colors, transforms);
   cylinder.setNumInstances(geometries.length); // grid of "particles"
 }
 
