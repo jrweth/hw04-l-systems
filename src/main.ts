@@ -52,7 +52,6 @@ function loadScene() {
       if(j >= 8 && j < 12) transforms[2].push(geometries[i].transform[j]);
       if(j >= 12 && j < 16) transforms[3].push(geometries[i].transform[j]);
     }
-    console.log(transforms);
 
   }
   cylinder.setInstanceVBOs(offsets, colors, transforms);

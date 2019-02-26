@@ -6,6 +6,8 @@ import {Turtle} from "./draw-rule/turtle";
 import {DrawMoveForward} from "./draw-rule/draw-move-forward";
 import {TurnRight} from "./draw-rule/turn-right";
 import {TurnLeft} from "./draw-rule/turn-left";
+import {StartBranch} from "./draw-rule/start-branch";
+import {EndBranch} from "./draw-rule/end-branch";
 
 export class LSystem {
   //the axiom to start with
@@ -90,12 +92,15 @@ export class LSystem {
 
 
   runDrawRules(): any[] {
+    let globalTurtleStack: Turtle[] = [];
     for(let charIndex:number = 0; charIndex < this.curString.length; charIndex++) {
+      console.log(this.turtle);
+      console.log(this.turtleStack);
       let char = this.curString.charAt(charIndex);
       let func = this.drawRules.get(char);
       //if rule is found then use
       if(func) {
-        func.draw();
+        this.turtle = func.draw(this.turtle, this.turtleStack, this.geometries);
       }
     }
     return this.geometries;
@@ -107,10 +112,12 @@ export class LSystem {
    * Add the standard rules based of Houdini codes
    */
   addStandardDrawRules(): void {
-    this.addDrawRule('f', new MoveForward(this.turtle, this.turtleStack, this.geometries));
-    this.addDrawRule('F', new DrawMoveForward(this.turtle, this.turtleStack, this.geometries));
-    this.addDrawRule('+', new TurnRight(this.turtle, this.turtleStack, this.geometries));
-    this.addDrawRule('-', new TurnLeft(this.turtle, this.turtleStack, this.geometries));
+    this.addDrawRule('f', new MoveForward());
+    this.addDrawRule('F', new DrawMoveForward());
+    this.addDrawRule('+', new TurnRight());
+    this.addDrawRule('-', new TurnLeft());
+    this.addDrawRule('[', new StartBranch());
+    this.addDrawRule(']', new EndBranch());
   }
 
 
