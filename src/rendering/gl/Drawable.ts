@@ -20,6 +20,7 @@ abstract class Drawable {
   colGenerated: boolean = false;
   translateGenerated: boolean = false;
   transform1Generated: boolean = false;
+  transform2Generated: boolean = false;
   uvGenerated: boolean = false;
 
   numInstances: number = 0; // How many instances of this Drawable the shader program should draw
@@ -69,6 +70,11 @@ abstract class Drawable {
     this.bufTransform1 = gl.createBuffer();
   }
 
+  generateTransform2() {
+    this.transform2Generated = true;
+    this.bufTransform2 = gl.createBuffer();
+  }
+
 
   generateUV() {
     this.uvGenerated = true;
@@ -115,6 +121,13 @@ abstract class Drawable {
       gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTransform1);
     }
     return this.transform1Generated;
+  }
+
+  bindTransform2(): boolean {
+    if (this.transform2Generated) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTransform2);
+    }
+    return this.transform2Generated;
   }
 
 

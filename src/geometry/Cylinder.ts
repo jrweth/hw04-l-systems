@@ -9,6 +9,7 @@ class Cylinder extends Drawable {
   normals: Float32Array;
   offsets: Float32Array; // Data for bufTranslate
   transforms1: Float32Array;
+  transforms2: Float32Array;
   numSegments: number;
 
 
@@ -47,6 +48,7 @@ class Cylinder extends Drawable {
     this.generateCol();
     this.generateTranslate();
     this.generateTransform1();
+    this.generateTransform2();
 
     this.count = this.indices.length;
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.bufIdx);
@@ -58,10 +60,13 @@ class Cylinder extends Drawable {
     console.log(`Created Cylindar`);
   }
 
-  setInstanceVBOs(offsets: number[], colors: number[], transforms1: number[]) {
+  setInstanceVBOs(offsets: number[], colors: number[], transforms1: number[], transforms2: number[]) {
     this.colors = new Float32Array(colors);
     this.offsets = new Float32Array(offsets);
     this.transforms1 = new Float32Array(transforms1);
+    this.transforms2 = new Float32Array(transforms2);
+    console.log(transforms1);
+    console.log(transforms2);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufCol);
     gl.bufferData(gl.ARRAY_BUFFER, this.colors, gl.STATIC_DRAW);
@@ -71,6 +76,9 @@ class Cylinder extends Drawable {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTransform1);
     gl.bufferData(gl.ARRAY_BUFFER, this.transforms1, gl.STATIC_DRAW);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTransform2);
+    gl.bufferData(gl.ARRAY_BUFFER, this.transforms2, gl.STATIC_DRAW);
 
   }
 };

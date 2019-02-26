@@ -36,6 +36,7 @@ function loadScene() {
   let offsets: number[] = [];
   let colors: number[] = [];
   let transforms1: number[] = [];
+  let transforms2: number[] = [];
   for(let i = 0; i < geometries.length; i++) {
     offsets.push(geometries[i].pos[0]);
     offsets.push(geometries[i].pos[1]);
@@ -46,14 +47,13 @@ function loadScene() {
     colors.push(geometries[i].color[2]);
     colors.push(geometries[i].color[3]);
 
-    transforms1.push(geometries[i].transform[0]);
-    transforms1.push(geometries[i].transform[1]);
-    transforms1.push(geometries[i].transform[2]);
-    transforms1.push(geometries[i].transform[3]);
-
+    for(let j = 0; j < 16; j++) {
+      if(j >= 0 && j < 4) transforms1.push(geometries[i].transform[j]);
+      if(j >= 4 && j < 8) transforms2.push(geometries[i].transform[j]);
+    }
 
   }
-  cylinder.setInstanceVBOs(offsets, colors, transforms1);
+  cylinder.setInstanceVBOs(offsets, colors, transforms1, transforms2);
   cylinder.setNumInstances(geometries.length); // grid of "particles"
 }
 
