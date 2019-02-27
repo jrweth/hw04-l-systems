@@ -99,6 +99,7 @@ export class LSystem {
 
 
   runDrawRules(): any[] {
+    //do the initial scaling
     for(let charIndex:number = 0; charIndex < this.curString.length; charIndex++) {
       let char = this.curString.charAt(charIndex);
       let func = this.drawRules.get(char);

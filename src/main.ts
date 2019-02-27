@@ -15,7 +15,7 @@ import Cylinder from "./geometry/Cylinder";
 const controls = {
   Iterations: 11,
   Gravity: 0.1,
-  "Branch Angle": 30
+  "Branch Angle": 40
 };
 
 let cylinder: Cylinder;
@@ -83,7 +83,7 @@ function main() {
   const gui = new DAT.GUI();
   let iterations = gui.add(controls, 'Iterations', 2, 14).step(1);
   iterations.onChange(loadScene);
-  let gravity = gui.add(controls, 'Gravity', 0.0, 2).step(0.1);
+  let gravity = gui.add(controls, 'Gravity', 0.0, 1).step(0.1);
   gravity.onChange(loadScene);
   let angle = gui.add(controls, 'Branch Angle', 5, 90).step(5);
   angle.onChange(loadScene);
@@ -103,7 +103,7 @@ function main() {
   // Initial call to load scene
   loadScene();
 
-  const camera = new Camera(vec3.fromValues(0, 10, -50), vec3.fromValues(0, 10, 0));
+  const camera = new Camera(vec3.fromValues(0, 10, -90), vec3.fromValues(0, 10, 0));
 
   const renderer = new OpenGLRenderer(canvas);
   renderer.setClearColor(0.2, 0.2, 0.2, 1);

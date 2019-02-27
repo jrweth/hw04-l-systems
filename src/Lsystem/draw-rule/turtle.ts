@@ -69,6 +69,7 @@ export function cloneTurtle(turtle: Turtle): Turtle {
     newTurtle.widthScale  = turtle.widthScale;
     newTurtle.length      = turtle.length;
     newTurtle.lengthScale = turtle.lengthScale;
+    newTurtle.gravity     = turtle.gravity;
     newTurtle.up          = up;
     newTurtle.dir         = dir;
     newTurtle.pos         = pos;
