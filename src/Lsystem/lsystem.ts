@@ -9,6 +9,10 @@ import {TurnLeft} from "./draw-rule/turn-left";
 import {StartBranch} from "./draw-rule/start-branch";
 import {EndBranch} from "./draw-rule/end-branch";
 import {RollClockwise} from "./draw-rule/roll-clockwise";
+import {RandomAngle} from "./draw-rule/random-angle";
+import {PitchUp} from "./draw-rule/pitch-up";
+import {ScaleLength} from "./draw-rule/scale-length";
+import {ScaleWidth} from "./draw-rule/scale-width";
 
 export class LSystem {
   //the axiom to start with
@@ -93,13 +97,24 @@ export class LSystem {
 
 
   runDrawRules(): any[] {
-    let globalTurtleStack: Turtle[] = [];
     for(let charIndex:number = 0; charIndex < this.curString.length; charIndex++) {
       let char = this.curString.charAt(charIndex);
       let func = this.drawRules.get(char);
       //if rule is found then use
       if(func) {
-        this.turtle = func.draw(this.turtle, this.turtleStack, this.geometries);
+        //check to see if we have an option string for our draw rule
+        let option = '';
+
+        //options for the symbol are encloesed in () -- if they exist get the option
+        if(this.curString.charAt(charIndex + 1) == '(') {
+          charIndex += 2;
+          while(this.curString.charAt(charIndex) !== ')') {
+            option += this.curString.charAt(charIndex);
+            charIndex++
+          }
+        }
+
+        this.turtle = func.draw(this.turtle, this.turtleStack, this.geometries, option);
       }
     }
     return this.geometries;
@@ -108,7 +123,7 @@ export class LSystem {
 
 
   /**
-   * Add the standard rules based of Houdini codes
+   * Add the standard rules based off Houdini codes
    */
   addStandardDrawRules(): void {
     this.addDrawRule('f', new MoveForward());
@@ -118,6 +133,10 @@ export class LSystem {
     this.addDrawRule('[', new StartBranch());
     this.addDrawRule(']', new EndBranch());
     this.addDrawRule('/', new RollClockwise());
+    this.addDrawRule('~', new RandomAngle({seed: 1}));
+    this.addDrawRule('^', new PitchUp());
+    this.addDrawRule('"', new ScaleLength());
+    this.addDrawRule("!", new ScaleWidth());
   }
 
 

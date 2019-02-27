@@ -7,6 +7,7 @@ import {Turtle} from "./turtle";
 export class MoveForward extends BaseDrawRule implements DrawRule {
   draw(turtle: Turtle, turtleStack: Turtle[], geometry: any[]) {
     let translation:vec3 = vec3.fromValues(0, 1, 0);
+    translation = VecMath.multiply(translation, turtle.length);
     turtle.pos =  VecMath.add(turtle.pos, translation);
 
     //add to the transformation

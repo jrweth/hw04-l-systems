@@ -26,10 +26,10 @@ export class Turtle {
   rollScale: number = 1.0;
 
   width: number = 1.0;
-  widthScale: number = 1.0;
+  widthScale: number = 0.9;
 
-  height: number = 1.0;
-  heightScale: number = 1.0;
+  length: number = 1.0;
+  lengthScale: number = 0.9;
 
   color: vec4 = vec4.fromValues(0.5,0.5,0.9, 1.0);
 
@@ -65,8 +65,8 @@ export function cloneTurtle(turtle: Turtle): Turtle {
     newTurtle.rollScale   = turtle.rollScale,
     newTurtle.width       = turtle.width,
     newTurtle.widthScale  = turtle.widthScale;
-    newTurtle.height      = turtle.height;
-    newTurtle.heightScale = turtle.heightScale;
+    newTurtle.length      = turtle.length;
+    newTurtle.lengthScale = turtle.lengthScale;
     newTurtle.up          = up;
     newTurtle.dir         = dir;
     newTurtle.pos         = pos;

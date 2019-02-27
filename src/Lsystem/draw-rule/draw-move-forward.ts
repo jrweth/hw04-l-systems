@@ -10,7 +10,7 @@ export class DrawMoveForward extends MoveForward{
     mat4.copy(transform, turtle.transform);
     geometry.push({
       pos: turtle.pos,
-      scale: vec3.fromValues(turtle.width, turtle.height, turtle.width),
+      scale: vec3.fromValues(turtle.width, turtle.length, turtle.width),
       color: turtle.color,
       transform: transform
     });

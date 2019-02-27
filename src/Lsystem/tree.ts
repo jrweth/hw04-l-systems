@@ -8,13 +8,13 @@ export class Tree extends LSystem {
   //constructor
   constructor(iterations: number, options: any) {
     super(iterations, options);
-    this.turtle.height = 1;
+    this.turtle.length = 1;
     this.turtle.width = 1;
     this.axiom = 'A';
-    this.addXRule('A', new XReplace('FFBA'));
+    this.addXRule('A', new XReplace('F!F!F~F!FFBA'));
     this.addXRule('B', new XReplacePercent([
-      {output: '[-FFF]', percentage: 0.90},
-      {output: '[+FFF]', percentage: 0.10}
+      {output: '[^FFF]', percentage: 0.90},
+      {output: '[-FFF]', percentage: 0.10}
     ], 2344));
 
     this.addStandardDrawRules();
