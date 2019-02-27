@@ -13,9 +13,10 @@ import Cylinder from "./geometry/Cylinder";
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
-  Iterations: 8,
-  Gravity: 0.1,
-  "Branch Angle": 40
+  Iterations: 15,
+  Gravity: 0.2,
+  "Branch Angle": 30,
+  "Branch Density": 0.6
 };
 
 let cylinder: Cylinder;
@@ -28,6 +29,7 @@ function loadScene() {
   tree.turtle.pitchAngle = controls["Branch Angle"];
   tree.turtle.yawAngle = controls["Branch Angle"];
   tree.turtle.rollAngle = controls["Branch Angle"];
+  tree.setBranchDensity(controls["Branch Density"]);
   tree.runExpansionIterations();
   let geometries = tree.runDrawRules();
   cylinder = new Cylinder(6);
@@ -40,13 +42,9 @@ function loadScene() {
   // offsets and gradiated colors for a 100x100 grid
   // of squares, even though the VBO data for just
   // one square is actually passed to the GPU
-  let offsets: number[] = [];
   let colors: number[] = [];
   let transforms: number[][] = [[],[],[],[]];
   for(let i = 0; i < geometries.length; i++) {
-    offsets.push(geometries[i].pos[0]);
-    offsets.push(geometries[i].pos[1]);
-    offsets.push(geometries[i].pos[2]);
 
     colors.push(geometries[i].color[0]);
     colors.push(geometries[i].color[1]);
@@ -62,7 +60,7 @@ function loadScene() {
     }
 
   }
-  cylinder.setInstanceVBOs(offsets, colors, transforms);
+  cylinder.setInstanceVBOs(colors, transforms);
   cylinder.setNumInstances(geometries.length); // grid of "particles"
 }
 
@@ -81,12 +79,14 @@ function main() {
   //////////////////////////////////// CONTROLS /////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   const gui = new DAT.GUI();
-  let iterations = gui.add(controls, 'Iterations', 2, 11).step(1);
+  let iterations = gui.add(controls, 'Iterations', 2, 20).step(1);
   iterations.onChange(loadScene);
   let gravity = gui.add(controls, 'Gravity', 0.0, 1).step(0.1);
   gravity.onChange(loadScene);
   let angle = gui.add(controls, 'Branch Angle', 5, 90).step(5);
   angle.onChange(loadScene);
+  let bDensity = gui.add(controls, 'Branch Density', 0.1, 1).step(0.1);
+  bDensity.onChange(loadScene);
 
 
 
@@ -103,7 +103,7 @@ function main() {
   // Initial call to load scene
   loadScene();
 
-  const camera = new Camera(vec3.fromValues(0, 10, -90), vec3.fromValues(0, 30, 0));
+  const camera = new Camera(vec3.fromValues(0, 10, 90), vec3.fromValues(0, 30, 0));
 
   const renderer = new OpenGLRenderer(canvas);
   renderer.setClearColor(0.2, 0.2, 0.2, 1);

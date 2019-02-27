@@ -15,6 +15,14 @@ import {ScaleLength} from "./draw-rule/scale-length";
 import {ScaleWidth} from "./draw-rule/scale-width";
 import {Gravity} from "./draw-rule/gravity";
 import {ScaleAngle} from "./draw-rule/scale-angle";
+import {mat4, vec3, vec4} from "gl-matrix";
+
+
+export class GeometryInstance {
+  type: number;
+  color: vec4;
+  transform: mat4;
+}
 
 export class LSystem {
   //the axiom to start with
@@ -46,7 +54,7 @@ export class LSystem {
 
 
   //geometries
-  geometries: any[] = [];
+  geometries: GeometryInstance[] = [];
 
 
   //initialize with the options

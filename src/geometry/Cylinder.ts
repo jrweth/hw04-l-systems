@@ -27,8 +27,10 @@ class Cylinder extends Drawable {
     for(let i = 0; i < this.numSegments; i++) {
       let x = 0.5 * Math.cos(i * 2 * Math.PI / this.numSegments);
       let z = 0.5 * Math.sin(i * 2 * Math.PI / this.numSegments);
+
       positions.push(x, 1.1, z, 1);
       positions.push(x, 0, z, 1);
+
       normals.push(x,0,z,1);
       normals.push(x,0,z,1);
 
@@ -48,6 +50,7 @@ class Cylinder extends Drawable {
     this.generateIdx();
     this.generatePos();
     this.generateCol();
+    this.generateNor();
     this.generateTranslate();
     this.generateTransform1();
     this.generateTransform2();
@@ -61,12 +64,15 @@ class Cylinder extends Drawable {
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufPos);
     gl.bufferData(gl.ARRAY_BUFFER, this.positions, gl.STATIC_DRAW);
 
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.bufNor);
+    gl.bufferData(gl.ARRAY_BUFFER, this.normals, gl.STATIC_DRAW);
+
+
     console.log(`Created Cylindar`);
   }
 
-  setInstanceVBOs(offsets: number[], colors: number[], transforms: number[][]) {
+  setInstanceVBOs(colors: number[], transforms: number[][]) {
     this.colors = new Float32Array(colors);
-    this.offsets = new Float32Array(offsets);
     this.transforms1 = new Float32Array(transforms[0]);
     this.transforms2 = new Float32Array(transforms[1]);
     this.transforms3 = new Float32Array(transforms[2]);
@@ -74,9 +80,6 @@ class Cylinder extends Drawable {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufCol);
     gl.bufferData(gl.ARRAY_BUFFER, this.colors, gl.STATIC_DRAW);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTranslate);
-    gl.bufferData(gl.ARRAY_BUFFER, this.offsets, gl.STATIC_DRAW);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTransform1);
     gl.bufferData(gl.ARRAY_BUFFER, this.transforms1, gl.STATIC_DRAW);

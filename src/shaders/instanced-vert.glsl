@@ -18,11 +18,13 @@ in vec2 vs_UV; // Non-instanced, and presently unused in main(). Feel free to us
 
 out vec4 fs_Col;
 out vec4 fs_Pos;
+out vec4 fs_Nor;
 
 void main()
 {
     fs_Col = vs_Col;
     fs_Pos = vs_Pos;
+    fs_Nor = vs_Nor;
 
     mat4 transform;
     transform[0] = vs_Transform1;
@@ -30,10 +32,10 @@ void main()
     transform[2] = vs_Transform3;
     transform[3] = vs_Transform4;
 
-    vec3 offset = vs_Translate;
     //offset.z = (sin((u_Time + offset.x) * 3.14159 * 0.1) + cos((u_Time + offset.y) * 3.14159 * 0.1)) * 1.5;
 
-    vec3 billboardPos = offset + vec3(vs_Pos.xyz);
+    //vec3 billboardPos = offset + vec3(vs_Pos.xyz);
 
     gl_Position = u_ViewProj * transform * vec4(vs_Pos.xyz, 1.0);
+    fs_Nor = transform * vs_Nor;
 }

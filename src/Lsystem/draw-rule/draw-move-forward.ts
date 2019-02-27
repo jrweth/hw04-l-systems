@@ -3,9 +3,10 @@ import {mat4, vec3} from "gl-matrix";
 import {VecMath} from "../../util/vec-math"
 import {MoveForward} from "./move-forward";
 import {Turtle} from "./turtle";
+import {GeometryInstance} from "../lsystem";
 
 export class DrawMoveForward extends MoveForward{
-  draw(turtle: Turtle, turtleStack: Turtle[], geometry: any[]) {
+  draw(turtle: Turtle, turtleStack: Turtle[], geometry: GeometryInstance[]) {
     let transform: mat4 = mat4.create();
     mat4.copy(transform, turtle.transform);
 
@@ -15,8 +16,7 @@ export class DrawMoveForward extends MoveForward{
 
 
     geometry.push({
-      pos: turtle.pos,
-      scale: vec3.fromValues(turtle.width, turtle.length, turtle.width),
+      type: 0,
       color: turtle.color,
       transform: transform
     });

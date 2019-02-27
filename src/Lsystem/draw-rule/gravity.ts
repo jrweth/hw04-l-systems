@@ -18,7 +18,7 @@ export class Gravity extends BaseDrawRule implements DrawRule {
     vec3.cross(axis, turtle.dir, vec3.fromValues(0, -1, 0));
 
     //if we are already po
-    let angle = gravity * 5;
+    let angle = gravity * 10;
 
     let transform: mat4 = VecMath.rotationAroundVector(axis, angle);
     mat4.multiply(turtle.transform, turtle.transform, transform);
