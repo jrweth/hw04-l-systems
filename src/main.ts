@@ -13,6 +13,9 @@ import Cylinder from "./geometry/Cylinder";
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
+  Iterations: 11,
+  Gravity: 0.1,
+  "Branch Angle": 30
 };
 
 let cylinder: Cylinder;
@@ -20,8 +23,12 @@ let screenQuad: ScreenQuad;
 let time: number = 0.0;
 
 function loadScene() {
-  let tree = new Tree(10, {});
-  console.log(tree.runExpansionIterations());
+  let tree = new Tree(controls.Iterations, {});
+  tree.turtle.gravity = controls.Gravity;
+  tree.turtle.pitchAngle = controls["Branch Angle"];
+  tree.turtle.yawAngle = controls["Branch Angle"];
+  tree.turtle.rollAngle = controls["Branch Angle"];
+  tree.runExpansionIterations();
   let geometries = tree.runDrawRules();
   cylinder = new Cylinder(6);
   cylinder.create();
@@ -46,6 +53,7 @@ function loadScene() {
     colors.push(geometries[i].color[2]);
     colors.push(geometries[i].color[3]);
 
+    //split the transform up into
     for(let j = 0; j < 16; j++) {
       if(j >= 0 && j < 4) transforms[0].push(geometries[i].transform[j]);
       if(j >= 4 && j < 8) transforms[1].push(geometries[i].transform[j]);
@@ -67,8 +75,20 @@ function main() {
   stats.domElement.style.top = '0px';
   document.body.appendChild(stats.domElement);
 
-  // Add controls to the gui
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////// CONTROLS /////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
   const gui = new DAT.GUI();
+  let iterations = gui.add(controls, 'Iterations', 2, 14).step(1);
+  iterations.onChange(loadScene);
+  let gravity = gui.add(controls, 'Gravity', 0.0, 2).step(0.1);
+  gravity.onChange(loadScene);
+  let angle = gui.add(controls, 'Branch Angle', 5, 90).step(5);
+  angle.onChange(loadScene);
+
+
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');

@@ -13,6 +13,8 @@ import {RandomAngle} from "./draw-rule/random-angle";
 import {PitchUp} from "./draw-rule/pitch-up";
 import {ScaleLength} from "./draw-rule/scale-length";
 import {ScaleWidth} from "./draw-rule/scale-width";
+import {Gravity} from "./draw-rule/gravity";
+import {ScaleAngle} from "./draw-rule/scale-angle";
 
 export class LSystem {
   //the axiom to start with
@@ -137,6 +139,8 @@ export class LSystem {
     this.addDrawRule('^', new PitchUp());
     this.addDrawRule('"', new ScaleLength());
     this.addDrawRule("!", new ScaleWidth());
+    this.addDrawRule(";", new ScaleAngle());
+    this.addDrawRule("T", new Gravity());
   }
 
 

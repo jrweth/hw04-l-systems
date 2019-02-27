@@ -15,21 +15,23 @@ export class Turtle {
 
   //the standard angle at which the turtle pitches up and down
   pitchAngle: number = 30;
-  pitchScale: number  = 1.0;
+  pitchScale: number  = 1.1;
 
   //the standard angle at which the turtle yaws side to side
   yawAngle: number = 30;
-  yawScale: number = 1.0;
+  yawScale: number = 1.1;
 
   //the standard angle at which the turtle rolls along the direction axis
   rollAngle: number = 30;
-  rollScale: number = 1.0;
+  rollScale: number = 1.1;
 
   width: number = 1.0;
   widthScale: number = 0.9;
 
   length: number = 1.0;
   lengthScale: number = 0.9;
+
+  gravity: number =  0.1;
 
   color: vec4 = vec4.fromValues(0.5,0.5,0.9, 1.0);
 

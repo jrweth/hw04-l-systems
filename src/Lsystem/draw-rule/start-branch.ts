@@ -6,8 +6,6 @@ import {cloneTurtle, Turtle} from "./turtle";
 
 export class StartBranch extends BaseDrawRule implements DrawRule {
   draw(turtle: Turtle, turtleStack: Turtle[], geometry: any) {
-    console.log('start');
-    let l: number = turtleStack.length;
     turtleStack.push(cloneTurtle(turtle));
     return turtle;
   }

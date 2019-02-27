@@ -10,11 +10,12 @@ export class Tree extends LSystem {
     super(iterations, options);
     this.turtle.length = 1;
     this.turtle.width = 1;
-    this.axiom = 'A';
-    this.addXRule('A', new XReplace('F!F!F~F!FFBA'));
+    //axiom is the trunk
+    this.axiom = 'FF+(15)FFF-(20)!FFA';
+
+    this.addXRule('A', new XReplace('!FF!F~;[B]FFF[B]TA'));
     this.addXRule('B', new XReplacePercent([
-      {output: '[^FFF]', percentage: 0.90},
-      {output: '[-FFF]', percentage: 0.10}
+      {output: '[~~!!!FFFA]', percentage: 0.90},
     ], 2344));
 
     this.addStandardDrawRules();
