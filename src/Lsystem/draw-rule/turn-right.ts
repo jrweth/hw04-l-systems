@@ -12,6 +12,7 @@ export class TurnRight extends BaseDrawRule implements DrawRule {
     }
     let transform: mat4 = VecMath.rotationAroundVector(turtle.up, -angle);
     mat4.multiply(turtle.transform, turtle.transform, transform);
+    mat4.multiply(turtle.rotationTransform, turtle.rotationTransform, transform);
 
     turtle.dir = VecMath.rotateAroundVector(turtle.dir, turtle.up, -angle);
     return turtle;

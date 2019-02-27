@@ -13,6 +13,7 @@ export class RollClockwise extends BaseDrawRule implements DrawRule {
 
     let transform: mat4 = VecMath.rotationAroundVector(turtle.dir, angle);
     mat4.multiply(turtle.transform, turtle.transform, transform);
+    mat4.multiply(turtle.rotationTransform, turtle.rotationTransform, transform);
 
     turtle.dir = VecMath.rotateAroundVector(turtle.dir, turtle.dir, angle);
     return turtle;

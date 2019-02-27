@@ -35,10 +35,17 @@ export class Turtle {
 
   color: vec4 = vec4.fromValues(0.5,0.5,0.9, 1.0);
 
+  rotationTransform: mat4 = mat4.fromValues(1,0,0,0,
+    0,1,0,0,
+    0,0,1,0,
+    0,0,0,1);
+
   transform: mat4 = mat4.fromValues(1,0,0,0,
                                        0,1,0,0,
                                        0,0,1,0,
                                        0,0,0,1);
+
+  geometryType: number = 0;
 
 }
 
@@ -59,6 +66,9 @@ export function cloneTurtle(turtle: Turtle): Turtle {
     let transform:mat4 = mat4.create();
     mat4.copy(transform, turtle.transform);
 
+    let rotationTransform:mat4 = mat4.create();
+    mat4.copy(rotationTransform, turtle.rotationTransform);
+
     newTurtle.pitchAngle  = turtle.pitchAngle,
     newTurtle.pitchScale  = turtle.pitchScale,
     newTurtle.yawAngle    = turtle.yawAngle,
@@ -70,11 +80,13 @@ export function cloneTurtle(turtle: Turtle): Turtle {
     newTurtle.length      = turtle.length;
     newTurtle.lengthScale = turtle.lengthScale;
     newTurtle.gravity     = turtle.gravity;
+    newTurtle.geometryType= turtle.geometryType;
     newTurtle.up          = up;
     newTurtle.dir         = dir;
     newTurtle.pos         = pos;
     newTurtle.color       = color;
     newTurtle.transform   = transform;
+    newTurtle.rotationTransform   = rotationTransform;
 
     return newTurtle;
 }

@@ -16,6 +16,7 @@ import {ScaleWidth} from "./draw-rule/scale-width";
 import {Gravity} from "./draw-rule/gravity";
 import {ScaleAngle} from "./draw-rule/scale-angle";
 import {mat4, vec3, vec4} from "gl-matrix";
+import {ChangeGeometry} from "./draw-rule/change-geometry";
 
 
 export class GeometryInstance {
@@ -150,6 +151,7 @@ export class LSystem {
     this.addDrawRule("!", new ScaleWidth());
     this.addDrawRule(";", new ScaleAngle());
     this.addDrawRule("T", new Gravity());
+    this.addDrawRule("G", new ChangeGeometry());
   }
 
 
