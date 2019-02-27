@@ -13,7 +13,7 @@ import Cylinder from "./geometry/Cylinder";
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
-  Iterations: 11,
+  Iterations: 8,
   Gravity: 0.1,
   "Branch Angle": 40
 };
@@ -81,7 +81,7 @@ function main() {
   //////////////////////////////////// CONTROLS /////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   const gui = new DAT.GUI();
-  let iterations = gui.add(controls, 'Iterations', 2, 14).step(1);
+  let iterations = gui.add(controls, 'Iterations', 2, 11).step(1);
   iterations.onChange(loadScene);
   let gravity = gui.add(controls, 'Gravity', 0.0, 1).step(0.1);
   gravity.onChange(loadScene);
@@ -103,7 +103,7 @@ function main() {
   // Initial call to load scene
   loadScene();
 
-  const camera = new Camera(vec3.fromValues(0, 10, -90), vec3.fromValues(0, 10, 0));
+  const camera = new Camera(vec3.fromValues(0, 10, -90), vec3.fromValues(0, 30, 0));
 
   const renderer = new OpenGLRenderer(canvas);
   renderer.setClearColor(0.2, 0.2, 0.2, 1);
