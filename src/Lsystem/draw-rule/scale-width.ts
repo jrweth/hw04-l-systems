@@ -12,13 +12,6 @@ export class ScaleWidth extends BaseDrawRule implements DrawRule {
     }
 
     turtle.width = turtle.width * scale;
-
-    //scale along the x and z axis
-    let transform: mat4 = mat4.create();
-    mat4.scale(transform, transform, vec3.fromValues(scale, 1, scale));
-
-
-    mat4.multiply(turtle.transform, turtle.transform, transform);
     return turtle;
   }
 }
