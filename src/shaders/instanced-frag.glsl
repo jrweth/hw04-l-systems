@@ -19,9 +19,8 @@ void main()
      //sunlight
      // Calculate the diffuse term for Lambert shading
      float sunDiffuseTerm = dot(normalize(normal.xyz), lightVector.xyz);
-     float ambientTerm = 0.3;
-     float sunIntensity = clamp(0.1, 1.0, sunDiffuseTerm + ambientTerm);   //Add a small float value to the color multiplier
+     float ambientTerm = 0.1;
+     float sunIntensity = clamp(0.0, 1.0, sunDiffuseTerm + ambientTerm);   //Add a small float value to the color multiplier
 
-     out_Col = vec4(sunIntensity * vec3(1.0, 1.0, 1.0), 1.0);
      out_Col = vec4(sunIntensity * fs_Col.xyz, 1.0);
 }

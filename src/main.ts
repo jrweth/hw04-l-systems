@@ -9,6 +9,7 @@ import {setGL} from './globals';
 import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 import {Tree} from "./Lsystem/tree";
 import Cylinder from "./geometry/Cylinder";
+import Leaf from "./geometry/Leaf";
 
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
@@ -20,6 +21,7 @@ const controls = {
 };
 
 let cylinder: Cylinder;
+let leaf: Leaf;
 let screenQuad: ScreenQuad;
 let time: number = 0.0;
 
@@ -42,26 +44,29 @@ function loadScene() {
   // offsets and gradiated colors for a 100x100 grid
   // of squares, even though the VBO data for just
   // one square is actually passed to the GPU
-  let colors: number[] = [];
-  let transforms: number[][] = [[],[],[],[]];
+  let colors: number[][] = [[],[]];
+  let transforms: number[][][] = [[[],[],[],[]],[[],[],[],[]]];
+  let length: number[] = [0,0];
   for(let i = 0; i < geometries.length; i++) {
+    let type: number = geometries[i].type;
+    length[type]++;
 
-    colors.push(geometries[i].color[0]);
-    colors.push(geometries[i].color[1]);
-    colors.push(geometries[i].color[2]);
-    colors.push(geometries[i].color[3]);
+    colors[type].push(geometries[i].color[0]);
+    colors[type].push(geometries[i].color[1]);
+    colors[type].push(geometries[i].color[2]);
+    colors[type].push(geometries[i].color[3]);
 
     //split the transform up into
     for(let j = 0; j < 16; j++) {
-      if(j >= 0 && j < 4) transforms[0].push(geometries[i].transform[j]);
-      if(j >= 4 && j < 8) transforms[1].push(geometries[i].transform[j]);
-      if(j >= 8 && j < 12) transforms[2].push(geometries[i].transform[j]);
-      if(j >= 12 && j < 16) transforms[3].push(geometries[i].transform[j]);
+      if(j >= 0 && j < 4)   transforms[type][0].push(geometries[i].transform[j]);
+      if(j >= 4 && j < 8)   transforms[type][1].push(geometries[i].transform[j]);
+      if(j >= 8 && j < 12)  transforms[type][2].push(geometries[i].transform[j]);
+      if(j >= 12 && j < 16) transforms[type][3].push(geometries[i].transform[j]);
     }
 
   }
-  cylinder.setInstanceVBOs(colors, transforms);
-  cylinder.setNumInstances(geometries.length); // grid of "particles"
+  cylinder.setInstanceVBOs(colors[0], transforms[0]);
+  cylinder.setNumInstances(length[0]); // grid of "particles"
 }
 
 function main() {
