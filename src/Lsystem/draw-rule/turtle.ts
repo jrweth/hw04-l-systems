@@ -47,6 +47,8 @@ export class Turtle {
 
   geometryType: number = 0;
 
+  fCount: number = 0;
+
 }
 
 export function cloneTurtle(turtle: Turtle): Turtle {
@@ -81,6 +83,7 @@ export function cloneTurtle(turtle: Turtle): Turtle {
     newTurtle.lengthScale = turtle.lengthScale;
     newTurtle.gravity     = turtle.gravity;
     newTurtle.geometryType= turtle.geometryType;
+    newTurtle.fCount      = turtle.fCount;
     newTurtle.up          = up;
     newTurtle.dir         = dir;
     newTurtle.pos         = pos;

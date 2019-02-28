@@ -15,9 +15,9 @@ import Leaf from "./geometry/Leaf";
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
   Iterations: 15,
-  Gravity: 0.2,
-  "Branch Angle": 30,
-  "Branch Density": 0.6
+  Gravity: 0.3,
+  "Branch Angle": 35,
+  "Branch Density": 0.4
 };
 
 let cylinder: Cylinder;
@@ -61,7 +61,7 @@ function loadScene() {
     offsets[type].push(geometries[i].offset[2]);
     offsets[type].push(geometries[i].offset[3]);
 
-    colors[type].push(geometries[i].color[0]);
+    colors[type].push(type);
     colors[type].push(geometries[i].color[1]);
     colors[type].push(geometries[i].color[2]);
     colors[type].push(geometries[i].color[3]);

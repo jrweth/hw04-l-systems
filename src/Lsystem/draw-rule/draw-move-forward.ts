@@ -1,5 +1,5 @@
 import {DrawRule} from "./draw-rule";
-import {mat4, vec3} from "gl-matrix";
+import {mat4, vec3, vec4} from "gl-matrix";
 import {VecMath} from "../../util/vec-math"
 import {MoveForward} from "./move-forward";
 import {Turtle} from "./turtle";
@@ -20,7 +20,7 @@ export class DrawMoveForward extends MoveForward{
 
     geometry.push({
       type: turtle.geometryType,
-      color: turtle.color,
+      color: vec4.fromValues(turtle.geometryType, turtle.fCount, 0, 0 ),
       transform: transform,
       offset: turtle.pos,
       rotTransform: rotTransform

@@ -15,6 +15,7 @@ export class MoveForward extends BaseDrawRule implements DrawRule {
     mat4.translate(transform, transform, translation);
     mat4.multiply(turtle.transform, turtle.transform, transform);
 
+    turtle.fCount ++;
 
     turtle.pos = VecMath.add(turtle.pos, VecMath.multiply(turtle.dir, turtle.length));
     return turtle;
