@@ -8,7 +8,7 @@ export class XReplace implements XRule {
     this.output = output;
   }
 
-  apply(string: string) {
+  apply(string: string, params: any) {
     return this.output;
   }
 

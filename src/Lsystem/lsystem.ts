@@ -17,6 +17,7 @@ import {Gravity} from "./draw-rule/gravity";
 import {ScaleAngle} from "./draw-rule/scale-angle";
 import {mat4, vec3, vec4} from "gl-matrix";
 import {ChangeGeometry} from "./draw-rule/change-geometry";
+import {AdvanceI} from "./draw-rule/advance-i";
 
 
 export class GeometryInstance {
@@ -80,14 +81,15 @@ export class LSystem {
 
 
   //do one iteration over the string
-  iterate(): void {
+  iterate(iterations: number): void {
     let nextString:string = '';
+    let params: any ={iterations: iterations};
     for(let charIndex:number = 0; charIndex < this.curString.length; charIndex++) {
       let char = this.curString.charAt(charIndex);
       let func = this.xRules.get(char);
       //if rule is found then use
       if(func) {
-        nextString += func.apply(char);
+        nextString += func.apply(char, params);
       }
       //if no rule found then just retain the same character
       else {
@@ -102,7 +104,7 @@ export class LSystem {
   runExpansionIterations(): string {
     this.curString = this.axiom;
     for(let i:number = 0; i < this.iterations; i++) {
-      this.iterate();
+      this.iterate(i);
     }
 
     return this.curString;
@@ -154,6 +156,7 @@ export class LSystem {
     this.addDrawRule(";", new ScaleAngle());
     this.addDrawRule("T", new Gravity());
     this.addDrawRule("G", new ChangeGeometry());
+    this.addDrawRule("I", new AdvanceI());
   }
 
 
