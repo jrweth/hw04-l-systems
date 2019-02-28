@@ -29,6 +29,11 @@ class ShaderProgram {
   attrTransform2: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
   attrTransform3: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
   attrTransform4: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrRotTransform1: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrRotTransform2: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrRotTransform3: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrRotTransform4: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
+  attrScale: number; // Used in the vertex shader during instanced rendering to offset the vertex positions to the particle's drawn position.
   attrUV: number;
 
   unifModel: WebGLUniformLocation;
@@ -60,6 +65,11 @@ class ShaderProgram {
     this.attrTransform2 = gl.getAttribLocation(this.prog, "vs_Transform2");
     this.attrTransform3 = gl.getAttribLocation(this.prog, "vs_Transform3");
     this.attrTransform4 = gl.getAttribLocation(this.prog, "vs_Transform4");
+    this.attrRotTransform1 = gl.getAttribLocation(this.prog, "vs_RotTransform1");
+    this.attrRotTransform2 = gl.getAttribLocation(this.prog, "vs_RotTransform2");
+    this.attrRotTransform3 = gl.getAttribLocation(this.prog, "vs_RotTransform3");
+    this.attrRotTransform4 = gl.getAttribLocation(this.prog, "vs_RotTransform4");
+    this.attrScale = gl.getAttribLocation(this.prog, "vs_Scale");
     this.attrUV = gl.getAttribLocation(this.prog, "vs_UV");
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
@@ -70,6 +80,7 @@ class ShaderProgram {
     this.unifRef   = gl.getUniformLocation(this.prog, "u_Ref");
     this.unifUp   = gl.getUniformLocation(this.prog, "u_Up");
 
+    console.log(this);
   }
 
   use() {
@@ -194,6 +205,35 @@ class ShaderProgram {
       gl.vertexAttribDivisor(this.attrTransform4, 1); // Advance 1 index in transform VBO for each drawn instance
     }
 
+    if (this.attrScale != -1 && d.bindScale()) {
+      gl.enableVertexAttribArray(this.attrScale);
+      gl.vertexAttribPointer(this.attrScale, 3, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrScale, 1); // Advance 1 index in transform VBO for each drawn instance
+    }
+
+    if (this.attrRotTransform1 != -1 && d.bindRotTransform1()) {
+      gl.enableVertexAttribArray(this.attrRotTransform1);
+      gl.vertexAttribPointer(this.attrRotTransform1, 4, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrRotTransform1, 1); // Advance 1 index in transform VBO for each drawn instance
+    }
+
+    if (this.attrRotTransform2 != -1 && d.bindRotTransform2()) {
+      gl.enableVertexAttribArray(this.attrRotTransform2);
+      gl.vertexAttribPointer(this.attrRotTransform2, 4, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrRotTransform2, 1); // Advance 1 index in transform VBO for each drawn instance
+    }
+
+    if (this.attrRotTransform3 != -1 && d.bindRotTransform3()) {
+      gl.enableVertexAttribArray(this.attrRotTransform3);
+      gl.vertexAttribPointer(this.attrRotTransform3, 4, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrRotTransform3, 1); // Advance 1 index in transform VBO for each drawn instance
+    }
+
+    if (this.attrRotTransform4 != -1 && d.bindRotTransform4()) {
+      gl.enableVertexAttribArray(this.attrRotTransform4);
+      gl.vertexAttribPointer(this.attrRotTransform4, 4, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrRotTransform4, 1); // Advance 1 index in transform VBO for each drawn instance
+    }
     d.bindIdx();
     // drawElementsInstanced uses the vertexAttribDivisor for each "in" variable to
     // determine how to link it to each drawn instance of the bound VBO.
@@ -213,6 +253,14 @@ class ShaderProgram {
     if (this.attrCol != -1) gl.disableVertexAttribArray(this.attrCol);
     if (this.attrTranslate != -1) gl.disableVertexAttribArray(this.attrTranslate);
     if (this.attrTransform1 != -1) gl.disableVertexAttribArray(this.attrTransform1);
+    if (this.attrTransform2 != -1) gl.disableVertexAttribArray(this.attrTransform2);
+    if (this.attrTransform3 != -1) gl.disableVertexAttribArray(this.attrTransform3);
+    if (this.attrTransform4 != -1) gl.disableVertexAttribArray(this.attrTransform4);
+    if (this.attrRotTransform1 != -1) gl.disableVertexAttribArray(this.attrRotTransform1);
+    if (this.attrRotTransform2 != -1) gl.disableVertexAttribArray(this.attrRotTransform2);
+    if (this.attrRotTransform3 != -1) gl.disableVertexAttribArray(this.attrRotTransform3);
+    if (this.attrRotTransform4 != -1) gl.disableVertexAttribArray(this.attrRotTransform4);
+    if (this.attrScale != -1) gl.disableVertexAttribArray(this.attrScale);
     if (this.attrUV != -1) gl.disableVertexAttribArray(this.attrUV);
   }
 };

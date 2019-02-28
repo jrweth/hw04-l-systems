@@ -37,15 +37,15 @@ class Square extends Drawable {
     console.log(`Created square`);
   }
 
-  setInstanceVBOs(offsets: Float32Array, colors: Float32Array) {
-    this.colors = colors;
-    this.offsets = offsets;
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.bufCol);
-    gl.bufferData(gl.ARRAY_BUFFER, this.colors, gl.STATIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTranslate);
-    gl.bufferData(gl.ARRAY_BUFFER, this.offsets, gl.STATIC_DRAW);
-  }
+  // setInstanceVBOs(offsets: Float32Array, colors: Float32Array) {
+  //   this.colors = colors;
+  //   this.offsets = offsets;
+  //
+  //   gl.bindBuffer(gl.ARRAY_BUFFER, this.bufCol);
+  //   gl.bufferData(gl.ARRAY_BUFFER, this.colors, gl.STATIC_DRAW);
+  //   gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTranslate);
+  //   gl.bufferData(gl.ARRAY_BUFFER, this.offsets, gl.STATIC_DRAW);
+  // }
 };
 
 export default Square;

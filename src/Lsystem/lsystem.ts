@@ -23,6 +23,8 @@ export class GeometryInstance {
   type: number;
   color: vec4;
   transform: mat4;
+  offset: vec3;
+  rotTransform: mat4;
 }
 
 export class LSystem {

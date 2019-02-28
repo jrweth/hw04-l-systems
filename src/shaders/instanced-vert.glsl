@@ -14,6 +14,10 @@ in vec4 vs_Transform1; //Instance rendering attribute for transforming the objec
 in vec4 vs_Transform2; //Instance rendering attribute for transforming the object
 in vec4 vs_Transform3; //Instance rendering attribute for transforming the object
 in vec4 vs_Transform4; //Instance rendering attribute for transforming the object
+in vec4 vs_RotTransform1; //Instance rendering attribute for transforming the object
+in vec4 vs_RotTransform2; //Instance rendering attribute for transforming the object
+in vec4 vs_RotTransform3; //Instance rendering attribute for transforming the object
+in vec4 vs_RotTransform4; //Instance rendering attribute for transforming the object
 in vec2 vs_UV; // Non-instanced, and presently unused in main(). Feel free to use it for your meshes.
 
 out vec4 fs_Col;
@@ -32,10 +36,16 @@ void main()
     transform[2] = vs_Transform3;
     transform[3] = vs_Transform4;
 
+    mat4 rotTransform;
+    rotTransform[0] = vs_RotTransform1;
+    rotTransform[1] = vs_RotTransform2;
+    rotTransform[2] = vs_RotTransform3;
+    rotTransform[3] = vs_RotTransform4;
+
     //offset.z = (sin((u_Time + offset.x) * 3.14159 * 0.1) + cos((u_Time + offset.y) * 3.14159 * 0.1)) * 1.5;
 
     //vec3 billboardPos = offset + vec3(vs_Pos.xyz);
 
     gl_Position = u_ViewProj * transform * vec4(vs_Pos.xyz, 1.0);
-    fs_Nor = transform * vs_Nor;
+    fs_Nor = rotTransform * vs_Nor;
 }

@@ -19,6 +19,7 @@ export class PitchUp extends BaseDrawRule implements DrawRule {
     mat4.multiply(turtle.rotationTransform, turtle.rotationTransform, transform);
 
     turtle.dir = VecMath.rotateAroundVector(turtle.dir, axis, angle);
+    turtle.up = VecMath.rotateAroundVector(turtle.up, axis, angle);
     return turtle;
   }
 }

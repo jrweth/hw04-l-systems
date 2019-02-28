@@ -10,6 +10,8 @@ export class ChangeGeometry extends BaseDrawRule implements DrawRule {
     if(!isNaN(parseFloat(options))) {
       geometryType = parseFloat(options);
     }
+    console.log('here');
+    console.log(geometryType);
 
     turtle.geometryType = geometryType;
 

@@ -14,11 +14,16 @@ export class DrawMoveForward extends MoveForward{
     mat4.scale(scale, scale, vec3.fromValues(turtle.width, turtle.length, turtle.width));
     mat4.multiply(transform, transform, scale);
 
+    let rotTransform: mat4 = mat4.create();
+    mat4.copy(rotTransform, turtle.rotationTransform);
+
 
     geometry.push({
-      type: 0,
+      type: turtle.geometryType,
       color: turtle.color,
-      transform: transform
+      transform: transform,
+      offset: turtle.pos,
+      rotTransform: rotTransform
     });
     return super.draw(turtle, turtleStack, geometry);
   }
