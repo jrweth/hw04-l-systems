@@ -24,6 +24,16 @@ vec3 getBranchColor(float fDist, float time, float lightIntensity) {
 
 }
 
+vec3 getLeafColor(float fDist, float time, float lightIntensity) {
+    float t = mod(time * pulseSpeed, pulseSpacing);
+    //float intensity = clamp(1.0 - abs(fDist - mod(time, 30.0)), 0.5, 1.0);
+    float intensity = clamp(2.0 / abs(fDist - t), 0.3, 5.0);
+    intensity = intensity + lightIntensity;
+
+    return intensity * baseColor;
+
+}
+
 vec4 getBranchColor2(float order, float pos) {
     float numColors = 4.0;
     vec4 color1 = vec4(1.0, .0, .0, 1.0);
@@ -92,7 +102,7 @@ void main()
      if(fs_Col.r == 0.0) {
          out_Col = vec4(getBranchColor(fs_Col.g, u_Time, sunIntensity), 1.0);
      }
-     else {
-         out_Col = vec4(baseColor * sunIntensity, 1.0);
+     else if(fs_Col.r == 1.0) {
+         out_Col = vec4(getLeafColor(fs_Col.g, u_Time, sunIntensity), 1.0);
      }
 }

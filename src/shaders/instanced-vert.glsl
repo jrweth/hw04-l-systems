@@ -54,7 +54,7 @@ void main()
        fs_Col = vec4(vs_Col.r, vs_Col.g + vs_Pos.y, 0.0, 0.0);
     }
     else if (vs_Col.r == 1.0) {
-        fs_Col = vec4(0.611, 0.768, 0.211, 1.0);
+        fs_Col = vec4(vs_Col.r, vs_Col.g, 0.0, 1.0);
     }
 
 }
