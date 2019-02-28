@@ -24,6 +24,8 @@ out vec4 fs_Col;
 out vec4 fs_Pos;
 out vec4 fs_Nor;
 
+
+
 void main()
 {
     fs_Pos = vs_Pos;
@@ -45,10 +47,11 @@ void main()
     gl_Position = u_ViewProj * transform * vec4(vs_Pos.xyz, 1.0);
     fs_Nor = rotTransform * vs_Nor;
 
-    //get the color
-    //for branches
+    //color.r = geometry type
+    //color.g = number of move forwards
+    //color.b = number of leaf move forwards
     if(vs_Col.r == 0.0) {
-        fs_Col = vec4(0.768, 0.584, 0.211, 1.0);
+       fs_Col = vec4(vs_Col.r, vs_Col.g + vs_Pos.y, 0.0, 0.0);
     }
     else if (vs_Col.r == 1.0) {
         fs_Col = vec4(0.611, 0.768, 0.211, 1.0);

@@ -86,7 +86,7 @@ function loadScene() {
     }
 
   }
-  console.log(offsets);
+  console.log(colors);
   cylinder.setInstanceVBOs(offsets[0], scales[0], colors[0], transforms[0], rotTransforms[0]);
   cylinder.setNumInstances(length[0]); // grid of "particles"
   leaf.setInstanceVBOs(offsets[1], scales[1], colors[1], transforms[1], rotTransforms[1]);
