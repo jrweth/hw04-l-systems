@@ -11,7 +11,7 @@ export class Tree extends LSystem {
     super(iterations, options);
     this.turtle.length = 1;
     this.turtle.width = 1;
-    this.axiom = '!(5)FFFFF+(10)FFF-(20)FFF[L]A';
+    this.axiom = '!(5)FFFFF-(5)F-(5)FFFF+(5)F+(5)F[L]A';
 
     this.addXRule('A', new XReplace('![B]FTFTF[B]F!F!FFA'));
     this.addXRule('L', new XReplace('-(90)G(1)FFFFFFFFFFFFFFF'))
