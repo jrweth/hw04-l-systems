@@ -8,11 +8,20 @@ in vec4 fs_Nor;
 out vec4 out_Col;
 
 
-vec3 baseColor = vec3(0.4, 0.4, 1.0);
+vec3 leafBaseColor = vec3(0.4, 0.7, 0.4);
+vec3 branchBaseColor = vec3(0.4, 0.4, 1.0);
 vec3 lightVector = normalize(vec3(1.0, 1.0, 1.0));
 float pulseSpacing = 200.0;
-float pulseSpeed = 0.2;
+float pulseSpeed = 0.1;
 
+
+vec2 random2( vec2 p , vec2 seed) {
+  return fract(sin(vec2(dot(p + seed, vec2(311.7, 127.1)), dot(p + seed, vec2(269.5, 183.3)))) * 85734.3545);
+}
+
+float random1( vec2 p , vec2 seed) {
+  return fract(sin(dot(p + seed, vec2(127.1, 311.7))) * 43758.5453);
+}
 
 vec3 getBranchColor(float fDist, float time, float lightIntensity) {
     float t = mod(time * pulseSpeed, pulseSpacing);
@@ -20,17 +29,34 @@ vec3 getBranchColor(float fDist, float time, float lightIntensity) {
     float intensity = clamp(2.0 / abs(fDist - t), 0.3, 5.0);
     intensity = intensity + lightIntensity;
 
-    return intensity * baseColor;
+
+
+
+    return intensity * branchBaseColor;
 
 }
 
 vec3 getLeafColor(float fDist, float time, float lightIntensity) {
     float t = mod(time * pulseSpeed, pulseSpacing);
-    //float intensity = clamp(1.0 - abs(fDist - mod(time, 30.0)), 0.5, 1.0);
-    float intensity = clamp(2.0 / abs(fDist - t), 0.3, 5.0);
+    float intensity = clamp(2.0 / abs(t-fDist), 0.3, 5.0);
+
+    vec3 color = leafBaseColor;
+
+    //make the falloff a bit longer
+    if(t > fDist) {
+       intensity = clamp(2.0 / (0.005 * abs(t-fDist) / pulseSpeed), 0.3, 3.0);
+    }
+
+    if(intensity > 0.3) {
+       vec2 seed = vec2(fDist, fDist + 2.0);
+       vec2 point = vec2(fDist+3.0, fDist+4.0);
+       vec3 color2 = vec3( random2(point, seed), random1(point, seed));
+       color = mix(color, color2, (intensity - 0.3) / 2.7);
+    }
+
     intensity = intensity + lightIntensity;
 
-    return intensity * baseColor;
+    return intensity * color;
 
 }
 
