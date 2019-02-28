@@ -156,6 +156,7 @@ function main() {
     stats.begin();
     instancedShader.setTime(time);
     flat.setTime(time++);
+    instancedShader.setTime(time++);
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
     renderer.render(camera, flat, [screenQuad]);

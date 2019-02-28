@@ -1,6 +1,6 @@
 #version 300 es
 precision highp float;
-
+uniform float u_Time;
 in vec4 fs_Col;
 in vec4 fs_Pos;
 in vec4 fs_Nor;
@@ -10,12 +10,14 @@ out vec4 out_Col;
 
 vec3 baseColor = vec3(0.4, 0.4, 1.0);
 vec3 lightVector = normalize(vec3(1.0, 1.0, 1.0));
-float pulseSpacing = 50.0;
+float pulseSpacing = 200.0;
+float pulseSpeed = 0.2;
 
 
 vec3 getBranchColor(float fDist, float time, float lightIntensity) {
+    float t = mod(time * pulseSpeed, pulseSpacing);
     //float intensity = clamp(1.0 - abs(fDist - mod(time, 30.0)), 0.5, 1.0);
-    float intensity = clamp(2.0 / abs(mod(fDist, pulseSpacing) - time), 0.3, 5.0);
+    float intensity = clamp(2.0 / abs(fDist - t), 0.3, 5.0);
     intensity = intensity + lightIntensity;
 
     return intensity * baseColor;
@@ -87,6 +89,10 @@ void main()
      float ambientTerm = 0.1;
      float sunIntensity = clamp(0.0, 1.0, sunDiffuseTerm + ambientTerm);   //Add a small float value to the color multiplier
 
-     out_Col = vec4(getBranchColor(fs_Col.g, 5.0, sunIntensity), 1.0);
-    // out_Col = vec4(baseColor * fs_Col.g/5.0, 1.0);
+     if(fs_Col.r == 0.0) {
+         out_Col = vec4(getBranchColor(fs_Col.g, u_Time, sunIntensity), 1.0);
+     }
+     else {
+         out_Col = vec4(baseColor * sunIntensity, 1.0);
+     }
 }

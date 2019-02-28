@@ -80,7 +80,6 @@ class ShaderProgram {
     this.unifRef   = gl.getUniformLocation(this.prog, "u_Ref");
     this.unifUp   = gl.getUniformLocation(this.prog, "u_Up");
 
-    console.log(this);
   }
 
   use() {
