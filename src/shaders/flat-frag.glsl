@@ -224,12 +224,19 @@ vec3 landColor() {
     float nightIntensity = 0.03;
     float dawnIntensity = 0.5;
 
+//    float pulseIntensity = 0.0;
+//    if(abs(distance(fs_Pos - vec2(0, -1)) < 0.1)) {
+//      // pulseIntensity = 1.0;
+//
+//    }
+
 
     return noise * base * (
         noon * noonIntensity
         + sunset * sunsetIntensity
         + night * nightIntensity
         + dawn * dawnIntensity
+        //+ pulseIntensity
     );
 
 }
