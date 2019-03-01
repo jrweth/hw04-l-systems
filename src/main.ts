@@ -17,7 +17,9 @@ const controls = {
   Iterations: 15,
   Gravity: 0.3,
   "Branch Angle": 35,
-  "Branch Density": 0.4
+  "Branch Density": 0.4,
+  "Leaf Density": 0.8,
+  "Presets": "standard"
 };
 
 let cylinder: Cylinder;
@@ -32,6 +34,7 @@ function loadScene() {
   tree.turtle.yawAngle = controls["Branch Angle"];
   tree.turtle.rollAngle = controls["Branch Angle"];
   tree.setBranchDensity(controls["Branch Density"]);
+  tree.setLeafDensity(controls["Leaf Density"]);
   tree.runExpansionIterations();
   let geometries = tree.runDrawRules();
   cylinder = new Cylinder(6);
@@ -108,14 +111,49 @@ function main() {
   //////////////////////////////////// CONTROLS /////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   const gui = new DAT.GUI();
-  let iterations = gui.add(controls, 'Iterations', 2, 20).step(1);
+  let iterations = gui.add(controls, 'Iterations', 2, 20).step(1).listen();
   iterations.onChange(loadScene);
-  let gravity = gui.add(controls, 'Gravity', 0.0, 1).step(0.1);
+  let gravity = gui.add(controls, 'Gravity', 0.0, 1).step(0.1).listen();
   gravity.onChange(loadScene);
-  let angle = gui.add(controls, 'Branch Angle', 5, 90).step(5);
+  let angle = gui.add(controls, 'Branch Angle', 5, 90).step(5).listen();
   angle.onChange(loadScene);
-  let bDensity = gui.add(controls, 'Branch Density', 0.1, 1).step(0.1);
+  let bDensity = gui.add(controls, 'Branch Density', 0.1, 1).step(0.1).listen();
   bDensity.onChange(loadScene);
+  let lDensity = gui.add(controls, 'Leaf Density', 0.0, 1.0).step(0.1).listen();
+  lDensity.onChange(loadScene);
+  let presets = gui.add(controls, 'Presets', ['', 'standard', 'sparse', 'bright', 'bare']).listen();
+  presets.onChange(() => {
+    if(controls.Presets == 'standard') {
+      controls.Gravity = 0.3;
+      controls.Iterations = 15;
+      controls["Branch Angle"] = 35;
+      controls["Branch Density"] = 0.5;
+      controls['Leaf Density'] = 0.8;
+    }
+    else if(controls.Presets == 'sparse') {
+      controls.Gravity = 0.2;
+      controls.Iterations = 14;
+      controls["Branch Angle"] = 15;
+      controls["Branch Density"] = 0.2;
+      controls['Leaf Density'] = 0.3;
+    }
+    else if (controls.Presets == 'bare') {
+      controls.Gravity = 0.1;
+      controls.Iterations = 19;
+      controls["Branch Angle"] = 30;
+      controls["Branch Density"] = 0.7;
+      controls['Leaf Density'] = 0.0;
+    }
+    else if (controls.Presets == 'bright') {
+      controls.Gravity = 0.3;
+      controls.Iterations = 17;
+      controls["Branch Angle"] = 30;
+      controls["Branch Density"] = 0.5;
+      controls['Leaf Density'] = 1.0;
+    }
+
+    loadScene();
+  });
 
 
 

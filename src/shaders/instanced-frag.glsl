@@ -8,28 +8,85 @@ in vec4 fs_Nor;
 out vec4 out_Col;
 
 
-vec3 leafBaseColor = vec3(0.4, 0.7, 0.4);
-vec3 branchBaseColor = vec3(0.4, 0.4, 1.0);
+vec3 leafBaseColor = vec3(0.1, 0.4, 0.1);
+vec3 branchBaseColor = vec3(0.301, 0.203, 0.078);
+vec3 branchBaseColor2 = vec3(0.4, 0.4, 1.0);
 vec3 lightVector = normalize(vec3(1.0, 1.0, 1.0));
-float pulseSpacing = 200.0;
+float pulseSpacing = 220.0;
 float pulseSpeed = 0.1;
 
 
-vec2 random2( vec2 p , vec2 seed) {
-  return fract(sin(vec2(dot(p + seed, vec2(311.7, 127.1)), dot(p + seed, vec2(269.5, 183.3)))) * 85734.3545);
-}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////// Random/Noise Functions ////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
 
 float random1( vec2 p , vec2 seed) {
   return fract(sin(dot(p + seed, vec2(127.1, 311.7))) * 43758.5453);
 }
 
+float random1( vec3 p , vec3 seed) {
+  return fract(sin(dot(p + seed, vec3(987.654, 123.456, 531.975))) * 85734.3545);
+}
+
+vec2 random2( vec2 p , vec2 seed) {
+  return fract(sin(vec2(dot(p + seed, vec2(311.7, 127.1)), dot(p + seed, vec2(269.5, 183.3)))) * 85734.3545);
+}
+
+
+
+float interpNoiseRandom2to1(vec2 p, vec2 seed) {
+    float fractX = fract(p.x);
+    float x1 = floor(p.x);
+    float x2 = x1 + 1.0;
+
+    float fractY = fract(p.y);
+    float y1 = floor(p.y);
+    float y2 = y1 + 1.0;
+
+    float v1 = random1(vec2(x1, y1), seed);
+    float v2 = random1(vec2(x2, y1), seed);
+    float v3 = random1(vec2(x1, y2), seed);
+    float v4 = random1(vec2(x2, y2), seed);
+
+    float i1 = mix(v1, v2, fractX);
+    float i2 = mix(v3, v4, fractX);
+
+//    return smoothstep(i1, i2, fractY);
+    return mix(i1, i2, fractY);
+
+}
+
+float fbm2to1(vec2 p, vec2 seed) {
+    float total  = 0.0;
+    float persistence = 0.5;
+    float octaves = 8.0;
+
+    for(float i = 0.0; i < octaves; i++) {
+        float freq = pow(2.0, i);
+        float amp = pow(persistence, i+1.0);
+        total = total + interpNoiseRandom2to1(p * freq, seed) * amp;
+    }
+    return total;
+}
+
+
+
+
 vec3 getBranchColor(float fDist, float time, float lightIntensity) {
     float t = mod(time * pulseSpeed, pulseSpacing);
     //float intensity = clamp(1.0 - abs(fDist - mod(time, 30.0)), 0.5, 1.0);
-    float intensity = clamp(2.0 / abs(fDist - t), 0.3, 5.0);
-    intensity = intensity + lightIntensity;
+    float pulseIntensity = clamp(2.0 / abs(fDist - t), 0.3, 5.0);
 
+    //add some fbm noise for bark
+    float noise = fbm2to1(fs_Pos.xy * 4.0, vec2(34, 43.2));
+    //lightIntensity = clamp(lightIntensity - 2.0 * noise, 0.0, 1.0);
 
+    float intensity = pulseIntensity + lightIntensity - noise/2.0;
+
+    intensity = intensity;
 
 
     return intensity * branchBaseColor;
@@ -126,9 +183,9 @@ void main()
      float sunIntensity = clamp(0.0, 1.0, sunDiffuseTerm + ambientTerm);   //Add a small float value to the color multiplier
 
      if(fs_Col.r == 0.0) {
-         out_Col = vec4(getBranchColor(fs_Col.g, u_Time, sunIntensity), 1.0);
+         out_Col = vec4(getBranchColor(fs_Col.g, u_Time-500.0, sunIntensity), 1.0);
      }
      else if(fs_Col.r == 1.0) {
-         out_Col = vec4(getLeafColor(fs_Col.g, u_Time, sunIntensity), 1.0);
+         out_Col = vec4(getLeafColor(fs_Col.g, u_Time-500.0, sunIntensity), 1.0);
      }
 }

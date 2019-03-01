@@ -57,4 +57,7 @@ void main()
         fs_Col = vec4(vs_Col.r, vs_Col.g, 0.0, 1.0);
     }
 
+    fs_Pos = transform * vec4(vs_Pos.xyz, 1.0);
+
+
 }

@@ -10,6 +10,7 @@ import {ResetFCount} from "./draw-rule/reset-f-count";
 
 export class Tree extends LSystem {
   branchDensity: number = 0.5;
+  leafDensity: number = 0.8;
 
   //constructor
   constructor(iterations: number, options: any) {
@@ -19,7 +20,6 @@ export class Tree extends LSystem {
     this.axiom = '!(5)FFFFF-(5)F-(5)FFFF+(5)F+(6)FA';
 
     this.addXRule('A', new XReplace('![B]FITFITF[B]F!F!FFLA'));
-    this.addXRule('L', new XReplaceMinI('[G(1)SW(4)YFF~(5)FF~(5)FFF~(5)FFF~(5)FFF]', 2))
 
     this.setBranchDensity(this.branchDensity);
 
@@ -38,6 +38,14 @@ export class Tree extends LSystem {
       percentage: this.branchDensity * 0.8
     }], 34394));
 
+  }
+
+  setLeafDensity(percentage: number): void {
+    this.leafDensity = percentage;
+    this.addXRule('L', new XReplacePercent([{
+      output: '[G(1)SW(4)YFF~(5)FF~(5)FFF~(5)FFF~(5)FFF]',
+      percentage: this.leafDensity
+    }], 34.343));
   }
 
 
