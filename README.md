@@ -9,7 +9,7 @@ For CIS 566 Spring 2018 - University Of Pennsylvania
 This project explores the use of L-systems to make organic plants.  The most difficult part of 
 
 ## Demos
-The demos for this project can be found in two places
+The demo for this project can be found hosted on github
 - [https://jrweth.github.io/l-system-trees/](https://jrweth.github.io/l-system-trees/)  
 
 ## Creating General L-system Parser
